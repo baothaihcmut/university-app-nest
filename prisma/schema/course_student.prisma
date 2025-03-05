@@ -1,0 +1,15 @@
+model CourseStudent {
+    courseId        String @map("course_id")
+    studentId       String @map("student_id")
+    assignmentScore Float? @map("assignment_score")
+    exerciseScore   Float? @map("exercise_score")
+    examScore       Float? @map("exam_score")
+    testScore       Float? @map("test_score")
+    avgScore        Float? @map("avg_score")
+
+    course  Course  @relation(fields: [courseId], references: [id])
+    student Student @relation(fields: [studentId], references: [userId])
+
+    @@id([courseId, studentId]) // Composite primary key
+    @@map("course_students")
+}

@@ -1,0 +1,9 @@
+model Faculity {
+    id   String @id
+    name String @map("name")
+
+    faculityTeachers FaculityTeacher[] @relation
+    majors           Major[]           @relation
+
+    @@map("faculities")
+}

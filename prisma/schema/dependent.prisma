@@ -1,0 +1,17 @@
+model Dependent {
+    id            String        @id
+    dependentType DependentType @map("dependent_type")
+    firstName     String        @map("first_name")
+    lastName      String        @map("last_name")
+    phoneNumber   String?       @map("phone_number")
+    userId        String        @map("user_id")
+
+    user User @relation("UserDependents", fields: [userId], references: [id])
+
+    @@map("dependents")
+}
+
+enum DependentType {
+    Father
+    Mother
+}

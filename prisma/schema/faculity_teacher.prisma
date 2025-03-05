@@ -1,0 +1,10 @@
+model FaculityTeacher {
+    teacherId  String @map("teacher_id")
+    faculityId String @map("faculity_id")
+
+    teacher  Teacher  @relation(fields: [teacherId], references: [userId])
+    faculity Faculity @relation(fields: [faculityId], references: [id])
+
+    @@id([teacherId, faculityId]) // Composite primary key
+    @@map("faculity_teachers")
+}

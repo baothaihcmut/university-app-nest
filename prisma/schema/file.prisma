@@ -1,0 +1,19 @@
+model File {
+    id         String   @id @default(uuid()) @map("file_id")
+    link       String   @map("link")
+    mimeType   MimeType @map("mime_type")
+    size       Int      @map("size")
+    isUploaded Boolean  @map("is_uploaded")
+
+    certificateFiles CertificateFile[]
+
+    @@map("files")
+}
+
+enum MimeType {
+    IMAGE_JPEG
+    IMAGE_PNG
+    APPLICATION_PDF
+    TEXT_PLAIN
+    OTHER
+}

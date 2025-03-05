@@ -1,0 +1,13 @@
+model Major {
+    id   String @id
+    name String
+
+    faculityId String?   @map("faculity_id")
+    faculity   Faculity? @relation(fields: [faculityId], references: [id])
+
+    majorTeachers MajorTeacher[]
+    students      Student[]
+    subjects      Subject[]      @relation
+
+    @@map("majors")
+}

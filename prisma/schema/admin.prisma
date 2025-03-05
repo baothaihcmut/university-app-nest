@@ -1,0 +1,11 @@
+model Admin {
+    id                  String  @id
+    firstName           String  @map("first_name")
+    lastName            String  @map("last_name")
+    email               String  @unique @map("email")
+    password            String  @map("password")
+    currentRefreshToken String? @map("current_refresh_token")
+    phoneNumber         String? @map("phone_number")
+
+    @@map("admins")
+}

@@ -1,0 +1,16 @@
+model SubjectPrequisite {
+    subjectId           String                 @map("subject_id")
+    prequisiteSubjectId String                 @map("prequisite_subject_id")
+    type                SubjectPrequisiteType? @map("prerequisite_type")
+
+    subject           Subject @relation("SubjectPrequisites", fields: [subjectId], references: [id])
+    prequisiteSubject Subject @relation("SubjectPostSubjects", fields: [prequisiteSubjectId], references: [id])
+
+    @@id([subjectId, prequisiteSubjectId]) // Composite primary key
+    @@map("subject_prequisites") // Table name mapping
+}
+
+enum SubjectPrequisiteType {
+    REQUIRED
+    OPTIONAL
+}

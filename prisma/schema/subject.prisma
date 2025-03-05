@@ -1,0 +1,21 @@
+model Subject {
+    id              String  @id @default(uuid()) @map("subject_id")
+    name            String  @map("name")
+    credits         Int     @map("credits")
+    description     String? @map("description")
+    examRatio       Int?    @map("exam_ratio")
+    testRatio       Int?    @map("test_ratio")
+    assignmentRatio Int?    @map("assignment_ratio")
+    exerciseRatio   Int?    @map("exercise_ratio")
+
+    majorId String? @map("major_id")
+    major   Major?  @relation(fields: [majorId], references: [id])
+
+    courses            Course[]            @relation
+    studentSubjects    StudentSubject[]    @relation
+    prequisiteSubjects SubjectPrequisite[] @relation("SubjectPrequisites")
+    postSubjects       SubjectPrequisite[] @relation("SubjectPostSubjects")
+    subjectTeachers    SubjectTeacher[]    @relation("SubjectTeachers")
+
+    @@map("subjects") // Table name mapping
+}

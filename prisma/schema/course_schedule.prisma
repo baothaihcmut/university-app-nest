@@ -1,0 +1,20 @@
+model CourseSchedule {
+    courseId  String    @map("course_id")
+    dayOfWeek DayOfWeek @map("day_of_week")
+    session   Int       @map("session")
+
+    course Course @relation(fields: [courseId], references: [id])
+
+    @@id([courseId, dayOfWeek, session]) // Composite primary key
+    @@map("course_schedules")
+}
+
+enum DayOfWeek {
+    MONDAY
+    TUESDAY
+    WEDNESDAY
+    THURSDAY
+    FRIDAY
+    SATURDAY
+    SUNDAY
+}

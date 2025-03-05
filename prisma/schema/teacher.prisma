@@ -1,0 +1,14 @@
+// prisma/schema/teacher.prisma
+model Teacher {
+    userId        String @id @map("user_id") // Shares user_id with User
+    teacherNumber String @unique @map("teacher_number")
+
+    // Relationships
+    user            User              @relation(fields: [userId], references: [id])
+    course          Course[]          @relation
+    faculityTeacher FaculityTeacher[]
+    majorTeacher    MajorTeacher[]
+    subjectTeacher  SubjectTeacher[]
+
+    @@map("teachers")
+}

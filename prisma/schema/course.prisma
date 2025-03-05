@@ -1,0 +1,20 @@
+model Course {
+    id                     String   @id
+    maxStudentQuantity     Int      @map("max_student_quantity")
+    currentStudentQuantity Int      @map("current_student_quantity")
+    room                   String   @map("room")
+    startDate              DateTime @map("start_date")
+    endDate                DateTime @map("end_date")
+    semester               String   @map("semester")
+
+    teacherId String? @map("teacher_id")
+    subjectId String  @map("subject_id")
+
+    teacher Teacher? @relation(fields: [teacherId], references: [userId])
+    subject Subject  @relation(fields: [subjectId], references: [id])
+
+    courseSchedules CourseSchedule[] @relation
+    students        CourseStudent[]  @relation
+
+    @@map("courses")
+}

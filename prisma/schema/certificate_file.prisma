@@ -1,0 +1,11 @@
+model CertificateFile {
+    certificateId String  @map("certificate_id")
+    fileId        String  @map("file_id")
+    description   String? @map("description")
+
+    certificate Certificate @relation(fields: [certificateId], references: [id])
+    file        File        @relation(fields: [fileId], references: [id])
+
+    @@id([certificateId, fileId]) // Composite primary key
+    @@map("certificate_files")
+}

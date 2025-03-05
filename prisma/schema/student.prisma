@@ -1,0 +1,17 @@
+// prisma/schema/student.prisma
+model Student {
+    userId        String    @id
+    studentNumber String    @unique @map("student_number")
+    schoolYear    String?   @map("school_year")
+    startYear     DateTime? @map("start_year") // LocalDate maps to DateTime
+    endYear       DateTime? @map("end_year")
+
+    // Relationships
+    majorId       String           @map("major_id") // Foreign key to Major
+    user          User             @relation(fields: [userId], references: [id])
+    subjects      StudentSubject[] @relation
+    major         Major            @relation(fields: [majorId], references: [id])
+    CourseStudent CourseStudent[]
+
+    @@map("students")
+}

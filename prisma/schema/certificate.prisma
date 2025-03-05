@@ -1,0 +1,10 @@
+model Certificate {
+    id     String  @id
+    userId String? @map("user_id")
+    name   String  @map("name")
+
+    user  User?             @relation("UserCertificates", fields: [userId], references: [id])
+    files CertificateFile[] @relation
+
+    @@map("certificates")
+}

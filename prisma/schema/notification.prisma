@@ -1,0 +1,21 @@
+model Notification {
+    id         String             @id @default(uuid()) @map("id")
+    receiverId String             @map("receiver_id")
+    senderId   String             @map("sender_id")
+    title      String             @map("title")
+    content    String             @map("content")
+    createdAt  DateTime           @map("createdAt")
+    actionUrl  String?            @map("action_url")
+    status     NotificationStatus @default(PENDING) @map("status")
+
+    receiver User @relation("UserReceivedNotifications", fields: [receiverId], references: [id])
+    sender   User @relation("UserSentNotifications", fields: [senderId], references: [id])
+
+    @@map("notifications")
+}
+
+enum NotificationStatus {
+    PENDING
+    READ
+    UNREAD
+}
