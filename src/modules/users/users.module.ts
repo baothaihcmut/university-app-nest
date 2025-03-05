@@ -5,8 +5,8 @@ import { CommonModule } from 'src/common/common.module';
 import { UserInteractor } from './interactors/user.interactor';
 
 @Module({
-  providers: [UsersService, UsersRespository,UserInteractor],
+  providers: [UsersService, UsersRespository, UserInteractor],
   imports: [CommonModule],
-  exports:[UsersService,UsersRespository],
+  exports: [UsersService, UsersRespository],
 })
 export class UsersModule {}

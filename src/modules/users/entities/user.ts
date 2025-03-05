@@ -8,6 +8,18 @@ export interface CreateUserArg {
   email: string;
   student?: CreateStudentArg;
   teacher?: CreateTeacherArg;
+  firstName?: string;
+  lastName?: string;
+  password?: string;
+  phoneNumber?: string;
+  birthplace?: string;
+  birthday?: Date;
+  socialNetworkInfo?: string;
+  address?: string;
+  image?: string;
+  currentRefreshToken?: string;
+  isActive: boolean;
+  role: Role;
 }
 
 export interface ActivateUserArg {
@@ -19,16 +31,14 @@ export interface ActivateUserArg {
   birthday?: Date;
   socialNetworkInfo?: string;
   address?: string;
-  student?: CreateStudentArg;
-  teacher?: CreateTeacherArg;
   image?: string;
   currentRefreshToken?: string;
 }
 
 export class User {
   id: UUID;
-  firstName: string;
-  lastName: string;
+  firstName?: string;
+  lastName?: string;
   email: string;
   password: string;
   currentRefreshToken?: string;
@@ -43,29 +53,33 @@ export class User {
   teacher?: Teacher;
   image?: string;
 
-  private constructor(args: CreateUserArg, role: Role) {
+  constructor(args: CreateUserArg) {
     this.id = randomUUID();
     this.email = args.email;
-    this.role = role;
-    this.isActive = false;
-  }
-
-  static createStudent(args: CreateUserArg): User {
-    const user = new User(args, Role.STUDENT);
-    user.student = new Student({
-      ...args.student,
-      user,
-    });
-    return user;
-  }
-
-  static createTeacher(args: CreateUserArg): User {
-    const user = new User(args, Role.TEACHER);
-    user.teacher = new Teacher({
-      ...args.teacher,
-      user,
-    });
-    return user;
+    this.role = args.role;
+    this.firstName = args.firstName;
+    this.lastName = args.lastName;
+    this.birthday = args.birthday;
+    this.birthplace = args.birthplace;
+    this.password = args.password;
+    this.phoneNumber = args.phoneNumber;
+    this.socialNetworkInfo = args.socialNetworkInfo;
+    this.currentRefreshToken = args.currentRefreshToken;
+    this.address = args.address;
+    this.isActive = args.isActive ?? false; // Default to false if not provided
+    this.image = args.image;
+    if (args.role === Role.STUDENT && args.student) {
+      this.student = new Student({
+        ...args.student,
+        user: this,
+      });
+    }
+    if (args.role === Role.TEACHER && args.teacher) {
+      this.teacher = new Teacher({
+        ...args.teacher,
+        user: this,
+      });
+    }
   }
 
   activate(args: ActivateUserArg) {

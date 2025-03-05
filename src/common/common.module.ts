@@ -4,6 +4,7 @@ import { AppConfigModule } from './app_config/app_config.module';
 
 @Module({
   imports: [PrismaModule, AppConfigModule],
+  providers: [],
   exports: [PrismaModule, AppConfigModule],
 })
 export class CommonModule {}

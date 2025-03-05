@@ -3,12 +3,13 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/common/prisma/prisma.service';
 import { User } from '../entities/user';
 import { Role } from 'src/common/enums/role';
+import { UUID } from 'crypto';
 
 @Injectable()
 export class UsersRespository {
   constructor(private prismaService: PrismaService) {}
 
-  async createUser(userData: User, tx: PrismaService) {
+  async createUser(userData: User, tx?: PrismaService) {
     const client = tx || this.prismaService;
 
     await client.user.create({
@@ -50,5 +51,19 @@ export class UsersRespository {
         },
       });
     }
+  }
+
+  async findUserByEmail(email: string, tx?: PrismaService): Promise<User> {
+    const client = tx || this.prismaService;
+    const res = await client.user.findFirst({
+      where: {
+        email,
+      },
+    });
+    return new User({
+      ...res,
+      role: res.role === 'STUDENT' ? Role.STUDENT : Role.TEACHER,
+      id: res.id as UUID,
+    });
   }
 }
