@@ -3,6 +3,11 @@ export default () => ({
   database: {
     url: process.env.DATABASE_URL,
   },
-
+  jwt:{
+    accessToken: {
+      secret: process.env.JWT_ACCESS_TOKEN_SECRET,
+      age: parseInt(process.env.JWT_ACCESS_TOKEN_AGE),
+    }
+  },
   environment: process.env.NODE_ENV || 'development',
 });

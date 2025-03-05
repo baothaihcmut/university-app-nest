@@ -6,17 +6,17 @@ model User {
     password            String?   @map("password")
     currentRefreshToken String?   @map("current_refresh_token")
     phoneNumber         String?   @map("phone_number")
-    imageId             String?   @map("image_id")
     birthplace          String?   @map("birthplace")
     birthday            DateTime? @map("birthday")
     socialNetworkInfo   String?   @map("social_network_info")
     address             String?   @map("address")
     role                Role      @map("role")
     isActive            Boolean   @default(false) @map("is_active")
+    image               String? @map("image")
+
 
     student              Student?       @relation
     teacher              Teacher?       @relation
-    image                String
     dependents           Dependent[]    @relation("UserDependents")
     receiveNotifications Notification[] @relation("UserReceivedNotifications")
     sendNotifications    Notification[] @relation("UserSentNotifications")
