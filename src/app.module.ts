@@ -6,6 +6,7 @@ import { APP_FILTER, APP_INTERCEPTOR, BaseExceptionFilter } from '@nestjs/core';
 import { AppExceptionFilter } from './common/filters/app-exception.filter';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { TransformInterceptor } from './common/interceptors/transform.interceptor';
+import { UserContextInterceptor } from './common/interceptors/user-context.interceptor';
 
 @Module({
   imports: [CommonModule, UsersModule, AuthModule],
@@ -26,6 +27,10 @@ import { TransformInterceptor } from './common/interceptors/transform.intercepto
     {
       provide: APP_INTERCEPTOR,
       useClass: TransformInterceptor,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: UserContextInterceptor,
     },
   ],
 })
