@@ -10,6 +10,8 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtPassportStrategy } from './passport/jwt.strategy';
 import { RefreshStrategy } from './passport/refresh.strategy';
 import { AuthInteractor } from './interactors/auth.interactor';
+import { CommonModule } from 'src/common/common.module';
+import { AuthController } from './controllers/auth.controller';
 
 @Module({
   imports: [
@@ -25,8 +27,10 @@ import { AuthInteractor } from './interactors/auth.interactor';
     PassportModule,
     UsersModule,
     ConfigModule,
+    CommonModule,
   ],
   providers: [AuthInteractor, JwtPassportStrategy, RefreshStrategy],
   exports: [JwtPassportStrategy],
+  controllers: [AuthController],
 })
 export class AuthModule {}

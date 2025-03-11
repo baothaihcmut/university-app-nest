@@ -13,6 +13,14 @@ export default () => ({
       age: parseInt(process.env.JWT_REFRESH_TOKEN_AGE),
     },
   },
+  logger: {
+    level: process.env.LOGGER_LEVEL || 'info',
+    format: process.env.LOGGER_FORMAT || 'json',
+    output: process.env.LOGGER_OUTPUT || 'console',
+    file: {
+      fileName: process.env.LOGGER_FILE_NAME || 'app.log',
+    },
+  },
 
   environment: process.env.NODE_ENV || 'development',
 });

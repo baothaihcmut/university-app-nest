@@ -31,7 +31,7 @@ export class TransformInterceptor implements NestInterceptor {
     const response = ctx.getResponse<Response>();
     const status = this.reflector.get<HttpStatus>(
       RESPONSE_STATUS,
-      context.getHandler,
+      context.getHandler(),
     );
     return next.handle().pipe(
       map((data) => {
@@ -43,17 +43,23 @@ export class TransformInterceptor implements NestInterceptor {
     );
   }
   private transformResponse(ctx: ExecutionContext, data: any): AppResponse {
-    const cls = this.reflector.get<ClassConstructor<any>>(
-      RESPONSE_DATA,
-      ctx.getHandler(),
-    );
-    if (cls) {
-      if (Array.isArray(data)) {
-        data = data.map((data) =>
-          plainToInstance<any, any>(cls, instanceToPlain(data)),
-        );
-      } else {
-        data = plainToInstance<any, any>(cls, instanceToPlain(data));
+    if (data) {
+      const cls = this.reflector.get<ClassConstructor<any>>(
+        RESPONSE_DATA,
+        ctx.getHandler(),
+      );
+      if (cls) {
+        if (Array.isArray(data)) {
+          data = data.map((data) =>
+            plainToInstance(cls, instanceToPlain(data), {
+              excludeExtraneousValues: true,
+            }),
+          );
+        } else {
+          data = plainToInstance(cls, instanceToPlain(data), {
+            excludeExtraneousValues: true,
+          });
+        }
       }
     }
     const msg = this.reflector.get<string>(RESPONSE_MESSAGE, ctx.getHandler());
