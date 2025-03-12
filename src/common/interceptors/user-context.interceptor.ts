@@ -18,7 +18,7 @@ export class UserContextInterceptor implements NestInterceptor {
   ): Observable<any> {
     const ctx = context.switchToHttp();
     const req = ctx.getRequest<Request>();
-    const user = req.user as AccessTokenPayload;
+    const user = req["user"] as AccessTokenPayload;
     if (user) {
       return new Observable((subscriber) => {
         this.ctxService.run(() => {

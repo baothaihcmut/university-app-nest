@@ -10,7 +10,6 @@ import { AppResponse } from '../response/response';
 import {
   ClassConstructor,
   instanceToPlain,
-  plainToInstance,
 } from 'class-transformer';
 import { Reflector } from '@nestjs/core';
 import {
@@ -43,24 +42,17 @@ export class TransformInterceptor implements NestInterceptor {
     );
   }
   private transformResponse(ctx: ExecutionContext, data: any): AppResponse {
+
     if (data) {
-      const cls = this.reflector.get<ClassConstructor<any>>(
-        RESPONSE_DATA,
-        ctx.getHandler(),
-      );
-      if (cls) {
         if (Array.isArray(data)) {
           data = data.map((data) =>
-            plainToInstance(cls, instanceToPlain(data), {
+            instanceToPlain(data), {
               excludeExtraneousValues: true,
-            }),
+            },
           );
         } else {
-          data = plainToInstance(cls, instanceToPlain(data), {
-            excludeExtraneousValues: true,
-          });
+          data = instanceToPlain(data);
         }
-      }
     }
     const msg = this.reflector.get<string>(RESPONSE_MESSAGE, ctx.getHandler());
 

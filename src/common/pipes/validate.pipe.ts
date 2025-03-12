@@ -5,12 +5,19 @@ import {
   ValidationPipe,
   HttpException,
   HttpStatus,
-} from '@nestjs/common';
+} from "@nestjs/common";
 
-import 'reflect-metadata';
+import "reflect-metadata";
 
 @Injectable()
 export class ValidateInputPipe extends ValidationPipe {
+  constructor() {
+    super({
+      transform: true,
+      whitelist: true,
+      forbidNonWhitelisted: true,
+    });
+  }
   public async transform(value: any, metadata: ArgumentMetadata) {
     try {
       return await super.transform(value, metadata);
@@ -18,14 +25,14 @@ export class ValidateInputPipe extends ValidationPipe {
       if (e instanceof BadRequestException) {
         throw new HttpException(
           this.handleError(e.getResponse()),
-          HttpStatus.BAD_REQUEST,
+          HttpStatus.BAD_REQUEST
         );
       }
     }
   }
 
   private handleError(errors: any) {
-    if (typeof errors === 'string') {
+    if (typeof errors === "string") {
       return errors;
     } else if (Array.isArray(errors.message)) {
       return errors.message[0];

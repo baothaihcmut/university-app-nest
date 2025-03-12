@@ -1,12 +1,12 @@
-import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { JwtService as LibJwtService } from '@nestjs/jwt';
-import { UUID } from 'crypto';
+import { Injectable } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
+import { JwtService as LibJwtService } from "@nestjs/jwt";
+import { UUID } from "crypto";
 import {
   JWTRefreshTokenAgeKey,
   JWTRefreshTokenSecretKey,
-} from 'src/common/constant';
-import { Role } from 'src/common/enums/role';
+} from "src/common/constant";
+import { Role } from "src/common/enums/role";
 
 export interface AccessTokenPayload {
   userId: UUID;
@@ -20,7 +20,7 @@ export interface RefreshTokenPayload {
 export class JwtService {
   constructor(
     private jwtService: LibJwtService,
-    private configService: ConfigService,
+    private configService: ConfigService
   ) {}
 
   async generateAccessToken(payload: AccessTokenPayload): Promise<string> {

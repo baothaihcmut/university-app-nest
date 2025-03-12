@@ -1,4 +1,12 @@
-export const JWTAccessTokenSecretKey = 'jwt.accessToken.secret';
-export const JWTAccessTokenAgeKey = 'jwt.accessToken.age';
-export const JWTRefreshTokenSecretKey = 'jwt.refreshToken.secret';
-export const JWTRefreshTokenAgeKey = 'jwt.refreshToken.age';
+export const JWTAccessTokenSecretKey = "jwt.accessToken.secret";
+export const JWTAccessTokenAgeKey = "jwt.accessToken.age";
+export const JWTRefreshTokenSecretKey = "jwt.refreshToken.secret";
+export const JWTRefreshTokenAgeKey = "jwt.refreshToken.age";
+export const REDIS_ENDPOINT_KEY = "redis.endpoint";
+export const MAIL_HOST = "mail.host";
+export const MAIL_USER = "mail.user";
+export const MAIL_PASSWORD = "mail.password";
+export const MAIL_PORT = "mail.port";
+export const MAIL_SECURE = "mail.secure";
+export const USER_SIGN_UP_EVENT = "user.sign_up";
+export const USER_CONFIRM_SIGN_UP_EVENT = "user.confirm_sign_up";
