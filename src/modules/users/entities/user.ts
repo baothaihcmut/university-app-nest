@@ -8,7 +8,7 @@ type UserRequiredField = "email" | "activate";
 type UserField = Required<Pick<User, UserRequiredField>> &
   Partial<Omit<User, UserRequiredField | "student" | "teacher" | "role">>;
 type ActivateUserArg = Required<
-  Omit<User, UserRequiredField | "student" | "teacher" | "role">
+  Omit<User, "email" | "activate" | "student" | "teacher" | "role" | "id">
 >;
 type CreateUserTeacher = UserField & {
   role: Role.TEACHER;
