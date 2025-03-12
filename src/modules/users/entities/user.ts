@@ -1,20 +1,24 @@
 import { randomUUID, UUID } from "crypto";
 import { Role } from "src/common/enums/role";
-import { Student } from "./student";
-import { Teacher } from "./teacher";
+import { CreateStudentArg, Student } from "./student";
+import { CreateTeacherArg, Teacher } from "./teacher";
 import * as bcrypt from "bcryptjs";
 
-export interface ActivateUserArg {
-  firstName: string;
-  lastName: string;
-  password: string;
-  phoneNumber: string;
-  birthplace: string;
-  birthday: Date;
-  socialNetworkInfo?: string;
-  address: string;
-  image?: string;
-}
+type UserRequiredField = "email" | "activate";
+type UserField = Required<Pick<User, UserRequiredField>> &
+  Partial<Omit<User, UserRequiredField | "student" | "teacher" | "role">>;
+type ActivateUserArg = Required<
+  Omit<User, UserRequiredField | "student" | "teacher" | "role">
+>;
+type CreateUserTeacher = UserField & {
+  role: Role.TEACHER;
+  teacher: CreateTeacherArg;
+};
+type CreateUserStudent = UserField & {
+  role: Role.STUDENT;
+  student: CreateStudentArg;
+};
+type CreateUserArg = CreateUserStudent | CreateUserTeacher;
 
 export class User {
   id: UUID;
@@ -34,22 +38,11 @@ export class User {
   teacher?: Teacher;
   image?: string;
 
-  constructor(args: Partial<User>) {
-    this.id = args?.id ?? (randomUUID() as UUID);
-    this.email = args?.email;
-    this.role = args?.role;
-    this.firstName = args?.firstName;
-    this.lastName = args?.lastName;
-    this.birthday = args?.birthday ?? new Date(); // Default to current date
-    this.birthplace = args?.birthplace ?? "";
-    this.password = args?.password;
-    this.phoneNumber = args?.phoneNumber;
-    this.socialNetworkInfo = args?.socialNetworkInfo;
-    this.currentRefreshToken = args?.currentRefreshToken;
-    this.address = args?.address ?? "";
-    this.isActive = args?.isActive ?? false;
-    this.image = args?.image;
-
+  constructor(args: CreateUserArg) {
+    Object.assign(this, {
+      id: args.id ?? randomUUID(),
+      ...args,
+    });
     if (args?.role === Role.STUDENT && args?.student) {
       this.student = new Student({ ...args.student, user: this });
     }

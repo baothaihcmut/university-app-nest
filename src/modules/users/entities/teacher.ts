@@ -1,16 +1,13 @@
-import { User } from './user';
+import { User } from "./user";
 
-export interface CreateTeacherArg {
-  teacherId: string;
-  user: User;
-}
-
+type RequiredTeacherField = "teacherId";
+export type CreateTeacherArg = Required<Pick<Teacher, RequiredTeacherField>> &
+  Partial<Omit<Teacher, RequiredTeacherField>>;
 export class Teacher {
   user: User;
   teacherId: string;
 
   constructor(args: CreateTeacherArg) {
-    this.teacherId = args.teacherId;
-    this.user = args.user;
+    Object.assign(this, args);
   }
 }
